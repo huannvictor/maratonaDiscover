@@ -1,5 +1,5 @@
 # MARATONA DISCOVER
-[![ROCKETSEAT](./pictures/logoRocket.svg)](https://youtu.be/NlDr6JX3VvA)
+[![ROCKETSEAT](https://github.com/huannvictor/maratonaDiscover/blob/master/pictures/logoRocket.svg)](https://youtu.be/NlDr6JX3VvA)
 
 ## dev.finance$
 
