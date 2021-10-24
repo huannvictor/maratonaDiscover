@@ -8,13 +8,29 @@
   box-sizing: border-box; /* considera o tamanho do elemnto apartir da borda */
 }
 
+html {
+  font-size: 93.75%; /* 15px */
+}
+
 body {
   background: #f0f2f5;
   font-family: 'Poppins', sans-serif;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .container {
-  width: min(90vw, 600px);
+  width: min(90vw, 800px);
   margin: auto;
 }
 
@@ -23,6 +39,20 @@ h2 {
   margin: 3.2rem 0 0.8rem;
   color: var(--dark-blue);
   font-weight: normal;
+}
+
+/* ----- LINKS AND BUTTONS ----- */
+a {
+  color: #49aa26;
+  text-decoration: none;
+}
+a:hover {
+  color: #3dd705;
+}
+
+.button.new {
+  display: inline-block;
+  margin-bottom: 0.8rem;
 }
 
 /* ----- HEADER ----- */
@@ -58,6 +88,9 @@ header {
 .card h3 {
   font-weight: normal;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .card p {
   font-size: 2rem;
@@ -71,9 +104,11 @@ header {
 
 /* ----- TABBLE ----- */
 #dataTable {
-  font-size: 1rem;
+  display: block;
   width: 100%;
   border-spacing: 0 0.5rem;
+  color: #969cb3;
+  overflow-x: auto;
 }
 
 table thead tr th:first-child,
@@ -100,7 +135,7 @@ table tbody tr:hover {
   opacity: 1;
 }
 
-table td {
+table tbody td {
   background: #fff;
   padding: 1rem 2rem;
 }
@@ -123,4 +158,17 @@ footer {
   padding: 4rem 0 2rem;
   color: var(--dark-blue);
   opacity: 0.6;
+}
+
+/* ----- RESPONSIVE ----- */
+@media (min-width: 800px) {
+  html {
+    font-size: 87.5%;
+  }
+
+  #balance {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
 }
