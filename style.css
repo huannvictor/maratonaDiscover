@@ -201,6 +201,7 @@ td.expense {
   justify-content: center;
   opacity: 0;
   visibility: hidden;
+  z-index: 100;
 }
 
 .modal-overlay.active {
@@ -213,6 +214,7 @@ td.expense {
   position: relative;
   width: 90%;
   max-width: 31.25rem;
+  z-index: 2;
 }
 
 /* ----- FROM ----- */
