@@ -26,7 +26,7 @@
             <span>Entradas</span>
             <img src="assets/income.svg" alt="imagem de entradas" />
           </h3>
-          <p>R$ 5.000,00</p>
+          <p id="incomeDisplay">...</p>
         </div>
 
         <div class="card">
@@ -34,7 +34,7 @@
             <span>Saídas</span>
             <img src="assets/expense.svg" alt="imagem de saídas" />
           </h3>
-          <p>R$ 2.000,00</p>
+          <p id="expenseDisplay">...</p>
         </div>
 
         <div class="card total">
@@ -42,14 +42,16 @@
             <span>Totais</span>
             <img src="assets/total.svg" alt="imagem de sifrão" />
           </h3>
-          <p>R$ 3.000,00</p>
+          <p id="totalDisplay">...</p>
         </div>
       </section>
 
       <section>
         <h2 class="sr-only">Transações</h2>
 
-        <a href="#" onclick="Modal.ToggleModal()" class="button new">+ Nova Transação</a>
+        <a href="#" onclick="Modal.ToggleModal()" class="button new"
+          >+ Nova Transação</a
+        >
 
         <div id="transaction">
           <table id="dataTable">
@@ -118,8 +120,8 @@
                 placeholder="0,00"
               />
               <small class="help">
-                Use o sinal de negativo (-) para despesas e vírgula para
-                casas decimais.
+                Use o sinal de negativo (-) para despesas e vírgula para casas
+                decimais.
               </small>
             </div>
 
@@ -134,7 +136,9 @@
             </div>
 
             <div class="inputGroup actions">
-              <a href="#" onclick="Modal.ToggleModal()" class="button cancel">Cancelar</a>
+              <a href="#" onclick="Modal.ToggleModal()" class="button cancel"
+                >Cancelar</a
+              >
               <button>Salvar</button>
             </div>
           </form>

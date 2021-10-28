@@ -36,20 +36,42 @@ const transactions = [
   {
     id: 3,
     description: 'internet',
-    amount: -123.52,
+    amount: 12352,
     date: '30/10/2021'
-  }
+  },
 ]
 
 const Transaction = {
-  incomes() {
-    //somar as etradas
+  all: transactions,
+  add (transaction) {
+    Transaction.all.push(transaction)
+    console.log(Transaction.all)
   },
-  expanses() {
-    //somar as saídas
+  incomes() {
+    let income = 0
+    // pegar todas as transacoes
+    // para cada transacao,
+    Transaction.all.forEach(transaction => {
+      // se ela for maior que zero
+      if(transaction.amount > 0) {
+        // somar à uma variável e retornar a variável
+        income += transaction.amount
+      }
+    })
+    return income
+  },
+  expenses() {
+    let expense = 0
+    Transaction.all.forEach(transaction => {
+      if(transaction.amount < 0){
+        expense += transaction.amount
+      }
+    })
+    return expense
   },
   total() {
-    // entradas - saídas
+    let total = Transaction.incomes() + Transaction.expenses()
+    return total
   }
 }
 
@@ -73,24 +95,36 @@ const DOM = {
     </td>
     `
     return html
+  },
+
+  updateBalance() {
+    document
+      .getElementById('incomeDisplay')
+      .innerHTML = Utils.formatCurrency(Transaction.incomes())
+    document
+      .getElementById('expenseDisplay')
+      .innerHTML = Utils.formatCurrency(Transaction.expenses())
+    document
+      .getElementById('totalDisplay')
+      .innerHTML = Utils.formatCurrency(Transaction.total())
   }
 }
 
 /*
 pode ser usado para configurar o valor do amount
 transaction.amount.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
-*/ 
+*/
 // opção apresentada no curso:
 const Utils = {
   formatCurrency(value) {
     const signal = Number(value) < 0 ? '-' : '+'
-    value = String(value).replace(/\D/g,"")
+    value = String(value).replace(/\D/g, '')
     value = Number(value) / 100
     value = value.toLocaleString('pt-br', {
       style: 'currency',
-      currency: "BRL"
+      currency: 'BRL'
     })
-    return signal + " " + value
+    return signal + ' ' + value
   }
 }
 
@@ -98,4 +132,12 @@ transactions.forEach(function (transaction) {
   DOM.addTransaction(transaction)
 })
 
-console.log(Utils)
+
+DOM.updateBalance()
+
+Transaction.add({
+  id: 2,
+  description: 'vbl',
+  amount: 32110,
+  date: '27/10/2021'
+})
