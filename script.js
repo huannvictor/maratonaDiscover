@@ -14,61 +14,66 @@ const Modal = {
   }
 }
 
-const transactions = [
-  {
-    id: 1,
-    description: 'luz',
-    amount: -23000,
-    date: '30/10/2021'
-  },
-  {
-    id: 2,
-    description: 'website',
-    amount: 500000,
-    date: '20/10/2021'
-  },
-  {
-    id: 3,
-    description: 'internet',
-    amount: -13000,
-    date: '30/10/2021'
-  },
-  {
-    id: 3,
-    description: 'internet',
-    amount: 12352,
-    date: '30/10/2021'
-  },
-]
 
 const Transaction = {
-  all: transactions,
-  add (transaction) {
+  all: [
+    {
+      description: 'luz',
+      amount: -23000,
+      date: '30/10/2021'
+    },
+    {
+      description: 'website',
+      amount: 500000,
+      date: '20/10/2021'
+    },
+    {
+      description: 'internet',
+      amount: -13000,
+      date: '30/10/2021'
+    },
+    {
+      description: 'internet',
+      amount: 12352,
+      date: '30/10/2021'
+    }
+  ],
+
+  add(transaction) {
     Transaction.all.push(transaction)
-    console.log(Transaction.all)
+    App.reload()
   },
+
+  remove(index) {
+    Transaction.all.splice(index, 1)
+
+    App.reload()
+  },
+
   incomes() {
     let income = 0
     // pegar todas as transacoes
     // para cada transacao,
     Transaction.all.forEach(transaction => {
       // se ela for maior que zero
-      if(transaction.amount > 0) {
+      if (transaction.amount > 0) {
         // somar à uma variável e retornar a variável
         income += transaction.amount
       }
     })
     return income
   },
+
   expenses() {
     let expense = 0
     Transaction.all.forEach(transaction => {
-      if(transaction.amount < 0){
+      if (transaction.amount < 0) {
         expense += transaction.amount
       }
     })
     return expense
   },
+
   total() {
     let total = Transaction.incomes() + Transaction.expenses()
     return total
@@ -77,6 +82,7 @@ const Transaction = {
 
 const DOM = {
   transactionsContainer: document.querySelector('#dataTable tbody'),
+
   addTransaction(transaction, index) {
     const tr = document.createElement('tr')
     tr.innerHTML = DOM.innerHTMLTransaction(transaction)
@@ -98,15 +104,19 @@ const DOM = {
   },
 
   updateBalance() {
-    document
-      .getElementById('incomeDisplay')
-      .innerHTML = Utils.formatCurrency(Transaction.incomes())
-    document
-      .getElementById('expenseDisplay')
-      .innerHTML = Utils.formatCurrency(Transaction.expenses())
-    document
-      .getElementById('totalDisplay')
-      .innerHTML = Utils.formatCurrency(Transaction.total())
+    document.getElementById('incomeDisplay').innerHTML = Utils.formatCurrency(
+      Transaction.incomes()
+    )
+    document.getElementById('expenseDisplay').innerHTML = Utils.formatCurrency(
+      Transaction.expenses()
+    )
+    document.getElementById('totalDisplay').innerHTML = Utils.formatCurrency(
+      Transaction.total()
+    )
+  },
+
+  ClearTransactions() {
+    DOM.transactionsContainer.innerHTML = ''
   }
 }
 
@@ -128,12 +138,27 @@ const Utils = {
   }
 }
 
-transactions.forEach(function (transaction) {
-  DOM.addTransaction(transaction)
-})
+const Form = {
+  submit(event) {
+    event.preventDefault()
+  }
+}
 
+const App = {
+  init() {
+    Transaction.all.forEach(transaction => {
+      DOM.addTransaction(transaction)
+    })
 
-DOM.updateBalance()
+    DOM.updateBalance()
+  },
+  reload() {
+    DOM.ClearTransactions()
+    App.init()
+  }
+}
+
+App.init()
 
 Transaction.add({
   id: 2,
@@ -141,3 +166,5 @@ Transaction.add({
   amount: 32110,
   date: '27/10/2021'
 })
+
+Transaction.remove(0)
