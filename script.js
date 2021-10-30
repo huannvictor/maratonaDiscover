@@ -14,7 +14,6 @@ const Modal = {
   }
 }
 
-
 const Transaction = {
   all: [
     {
@@ -85,11 +84,13 @@ const DOM = {
 
   addTransaction(transaction, index) {
     const tr = document.createElement('tr')
-    tr.innerHTML = DOM.innerHTMLTransaction(transaction)
+    tr.innerHTML = DOM.innerHTMLTransaction(transaction, index)
+    tr.dataset.index = index
+
     DOM.transactionsContainer.appendChild(tr)
   },
 
-  innerHTMLTransaction(transaction) {
+  innerHTMLTransaction(transaction, index) {
     const CSSclass = transaction.amount > 0 ? 'income' : 'expense'
     const amount = Utils.formatCurrency(transaction.amount)
     const html = `
@@ -97,7 +98,7 @@ const DOM = {
     <td class=${CSSclass}>${amount}</td>
     <td class="date">${transaction.date}</td>
     <td>
-      <img src="assets/minus.svg" alt="remover transação" />
+      <img onclick="Transaction.remove(${index})" src="assets/minus.svg" alt="remover transação" />
     </td>
     `
     return html
@@ -135,19 +136,90 @@ const Utils = {
       currency: 'BRL'
     })
     return signal + ' ' + value
+  },
+
+  formatAmount(value) {
+    value = Number(value.replace(/\,\./g, "")) * 100
+    return value
+  },
+  formatDate(date) {
+    const splitedDate = date.split('-')
+    return `${splitedDate[2]}/${splitedDate[1]}/${splitedDate[0]}`
   }
 }
 
 const Form = {
+  description: document.querySelector('#description'),
+  amount: document.querySelector('#amount'),
+  date: document.querySelector('#date'),
+
+  getValues() {
+    return {
+      description: Form.description.value,
+      amount: Form.amount.value,
+      date: Form.date.value
+    }
+  },
+
+  validateFilds() {
+    const { description, amount, date } = Form.getValues()
+
+    if (
+      description.trim() === '' ||
+      amount.trim() === '' ||
+      date.trim() === ''
+    ) {
+      throw new Error('por favor, preencha todos os campos')
+    }
+  },
+
+  formatValues() {
+    let { description, amount, date } = Form.getValues()
+
+    amount = Utils.formatAmount(amount)
+
+    date = Utils.formatDate(date)
+
+    return {
+      description,
+      amount,
+      date
+    }
+  },
+
+  clearFields() {
+    Form.description.value = ''
+    Form.amount.value = ''
+    Form.date.value = ''
+  },
+
   submit(event) {
     event.preventDefault()
+
+    try {
+      // verificar se todas as informações foram preenchidas
+      Form.validateFilds()
+      // formatar os dados para salvar
+      const transaction = Form.formatValues()
+      // salvar
+      // atualizar a aplicação
+      Transaction.add(transaction)
+      // apagar os dados do formulário
+      Form.clearFields()
+      // fechar modal
+      Modal.ToggleModal()
+      console.log(Form.formatValues())
+      
+    } catch (error) {
+      alert(error.message)
+    }
   }
 }
 
 const App = {
   init() {
-    Transaction.all.forEach(transaction => {
-      DOM.addTransaction(transaction)
+    Transaction.all.forEach((transaction, index) => {
+      DOM.addTransaction(transaction, index)
     })
 
     DOM.updateBalance()
@@ -159,12 +231,3 @@ const App = {
 }
 
 App.init()
-
-Transaction.add({
-  id: 2,
-  description: 'vbl',
-  amount: 32110,
-  date: '27/10/2021'
-})
-
-Transaction.remove(0)
