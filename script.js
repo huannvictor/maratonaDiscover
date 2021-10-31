@@ -14,29 +14,18 @@ const Modal = {
   }
 }
 
+const Storage = {
+  get(){
+    return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+  },
+
+  set(transactions){
+    localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+  },
+}
+
 const Transaction = {
-  all: [
-    {
-      description: 'luz',
-      amount: -23000,
-      date: '30/10/2021'
-    },
-    {
-      description: 'website',
-      amount: 500000,
-      date: '20/10/2021'
-    },
-    {
-      description: 'internet',
-      amount: -13000,
-      date: '30/10/2021'
-    },
-    {
-      description: 'internet',
-      amount: 12352,
-      date: '30/10/2021'
-    }
-  ],
+  all: Storage.get(),
 
   add(transaction) {
     Transaction.all.push(transaction)
@@ -74,8 +63,7 @@ const Transaction = {
   },
 
   total() {
-    let total = Transaction.incomes() + Transaction.expenses()
-    return total
+    return total = Transaction.incomes() + Transaction.expenses()
   }
 }
 
@@ -139,7 +127,7 @@ const Utils = {
   },
 
   formatAmount(value) {
-    value = Number(value.replace(/\,\./g, "")) * 100
+    value = Number(value) * 100
     return value
   },
   formatDate(date) {
