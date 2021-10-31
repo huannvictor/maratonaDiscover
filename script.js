@@ -15,13 +15,16 @@ const Modal = {
 }
 
 const Storage = {
-  get(){
-    return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+  get() {
+    return JSON.parse(localStorage.getItem('dev.finances:transactions')) || []
   },
 
-  set(transactions){
-    localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
-  },
+  set(transactions) {
+    localStorage.setItem(
+      'dev.finances:transactions',
+      JSON.stringify(transactions)
+    )
+  }
 }
 
 const Transaction = {
@@ -63,7 +66,7 @@ const Transaction = {
   },
 
   total() {
-    return total = Transaction.incomes() + Transaction.expenses()
+    return (total = Transaction.incomes() + Transaction.expenses())
   }
 }
 
@@ -115,8 +118,20 @@ transaction.amount.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
 */
 // opção apresentada no curso:
 const Utils = {
+  formatAmount(value) {
+    value = String(value).replace(/\,\./g, '')
+    value = Number(value) * 100
+    return value
+  },
+
+  formatDate(date) {
+    const splitedDate = date.split('-')
+    return `${splitedDate[2]}/${splitedDate[1]}/${splitedDate[0]}`
+  },
+
   formatCurrency(value) {
-    const signal = Number(value) < 0 ? '-' : '+'
+    const signal = Number(value) < 0 ? '-' : ' '
+
     value = String(value).replace(/\D/g, '')
     value = Number(value) / 100
     value = value.toLocaleString('pt-br', {
@@ -124,15 +139,6 @@ const Utils = {
       currency: 'BRL'
     })
     return signal + ' ' + value
-  },
-
-  formatAmount(value) {
-    value = Number(value) * 100
-    return value
-  },
-  formatDate(date) {
-    const splitedDate = date.split('-')
-    return `${splitedDate[2]}/${splitedDate[1]}/${splitedDate[0]}`
   }
 }
 
@@ -196,8 +202,7 @@ const Form = {
       Form.clearFields()
       // fechar modal
       Modal.ToggleModal()
-      console.log(Form.formatValues())
-      
+      console.log(transaction)
     } catch (error) {
       alert(error.message)
     }
