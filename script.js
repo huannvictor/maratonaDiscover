@@ -10,7 +10,10 @@ const Modal = {
   },*/
 
   ToggleModal() {
-    document.querySelector('div.modal-overlay').classList.toggle('active')
+    document
+      .querySelector('div.modal-overlay')
+      .classList
+      .toggle('active')
   }
 }
 
@@ -119,9 +122,9 @@ transaction.amount.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
 // opção apresentada no curso:
 const Utils = {
   formatAmount(value) {
-    value = String(value).replace(/\,\./g, '')
-    value = Number(value) * 100
-    return value
+    //value = String(value).replace(/\,\./g, '')
+    value = value * 100
+    return Math.round(value)
   },
 
   formatDate(date) {
