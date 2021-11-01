@@ -1,4 +1,4 @@
-# CONCEITOS
+# Conceitos teóricos • INTRODUÇÃO
 
 ## 1. O que é ser uma pessoa programadora?
   - softskills: habilidades comportamentais
